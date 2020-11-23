@@ -9,6 +9,7 @@ namespace Autentication.Models
     // В профиль пользователя можно добавить дополнительные данные, если указать больше свойств для класса ApplicationUser. Подробности см. на странице https://go.microsoft.com/fwlink/?LinkID=317594.
     public class ApplicationUser : IdentityUser
     {
+        public string Position { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Обратите внимание, что authenticationType должен совпадать с типом, определенным в CookieAuthenticationOptions.AuthenticationType
@@ -20,6 +21,8 @@ namespace Autentication.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Product> Products { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
@@ -29,5 +32,13 @@ namespace Autentication.Models
         {
             return new ApplicationDbContext();
         }
+    }
+
+    public class Product
+    {
+        public int Id { get; set; }
+        public string ProductName { get; set; }
+        public decimal Cost { get; set; }
+        public int? EmployeeId { get; set; }
     }
 }
